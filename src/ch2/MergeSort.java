@@ -22,44 +22,72 @@ public class MergeSort {
                 list.add(sc.nextInt());
             }
 
-            System.out.println(mergeSort(list));
+            mergeSort(list, 0, list.size() - 1);
+            System.out.println(list);
         }
         sc.close();
     }
 
-    public static List<Integer> mergeSort(List<Integer> list) {
-
-        int size = list.size();
-
-        if (size <= 1) {
-            return list;
+    public static void mergeSort(List<Integer> list, int start, int end) {
+        if (start < end) {
+            int dividedByTwo = (start + end) / 2;
+            mergeSort(list, start, dividedByTwo);
+            mergeSort(list, dividedByTwo + 1, end);
+            mergeWithoutMaxValue(list, start, dividedByTwo, end);
         }
-
-        int dividedByTwo = size / 2;
-        List<Integer> first = mergeSort(list.subList(0, dividedByTwo));
-        List<Integer> second = mergeSort(list.subList(dividedByTwo + 1, size));
-        return merge(first, second);
     }
 
-    public static List<Integer> merge(List<Integer> first, List<Integer> second) {
+    public static void merge(List<Integer> list, int start, int divided, int end) {
+        List<Integer> first = new ArrayList<Integer>(divided - start + 1 + 1);
+        List<Integer> second = new ArrayList<Integer>(end - divided + 1);
 
-        int size = first.size() + second.size();
-        List<Integer> output = new ArrayList<Integer>();
-        int firstIndex = 0;
-        int secondIndex = 0;
+        list.subList(start, divided + 1).stream().forEach(i -> first.add(i));
+        list.subList(divided + 1, end + 1).stream().forEach(i -> second.add(i));
+
         first.add(Integer.MAX_VALUE);
         second.add(Integer.MAX_VALUE);
 
-        for (int i = 0; i < size; i++) {
+        int firstIndex = 0;
+        int secondIndex = 0;
+
+        for (int i = start; i <= end; i++) {
             if (first.get(firstIndex) > second.get(secondIndex)) {
-                output.add(second.get(secondIndex));
+                list.set(i, second.get(secondIndex));
                 secondIndex++;
             } else {
-                output.add(first.get(firstIndex));
+                list.set(i, first.get(firstIndex));
                 firstIndex++;
             }
         }
+    }
 
-        return output;
+    /*
+     * Integer.MAX_Value 없이 merge (경계값 체크)
+     */
+    public static void mergeWithoutMaxValue(List<Integer> list, int start, int divided, int end) {
+        List<Integer> first = new ArrayList<Integer>(divided - start + 1);
+        List<Integer> second = new ArrayList<Integer>(end - divided);
+
+        list.subList(start, divided + 1).stream().forEach(i -> first.add(i));
+        list.subList(divided + 1, end + 1).stream().forEach(i -> second.add(i));
+
+        int firstIndex = 0;
+        int secondIndex = 0;
+
+        for (int i = start; i <= end; i++) {
+            if (firstIndex == first.size()) {
+                list.set(i, second.get(secondIndex));
+                secondIndex++;
+            } else if (secondIndex == second.size()) {
+                list.set(i, first.get(firstIndex));
+                firstIndex++;
+            } else if (first.get(firstIndex) > second.get(secondIndex)) {
+                list.set(i, second.get(secondIndex));
+                secondIndex++;
+            } else {
+                list.set(i, first.get(firstIndex));
+                firstIndex++;
+            }
+        }
     }
 }

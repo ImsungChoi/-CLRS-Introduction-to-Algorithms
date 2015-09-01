@@ -19,13 +19,14 @@ public class InsertionSort {
                 input.add(sc.nextInt());
             }
 
-            System.out.println(insertionSort(input));
+            insertionSort(input);
+            System.out.println(input);
         }
 
         sc.close();
     }
 
-    public static List<Integer> insertionSort(List<Integer> intList) {
+    public static void insertionSort(List<Integer> intList) {
         for (int i = 1; i < intList.size(); i++) {
             int key = intList.get(i);
             int j = i - 1;
@@ -36,7 +37,5 @@ public class InsertionSort {
             }
             intList.set(j + 1, key);
         }
-
-        return intList;
     }
 }

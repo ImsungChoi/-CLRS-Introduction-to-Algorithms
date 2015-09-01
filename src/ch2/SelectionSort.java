@@ -17,12 +17,13 @@ public class SelectionSort {
             for (int i = 0; i < n; i++)
                 input.add(sc.nextInt());
 
-            System.out.println(selectionSort(input));
+            selectionSort(input);
+            System.out.println(input);
         }
         sc.close();
     }
 
-    public static List<Integer> selectionSort(List<Integer> list) {
+    public static void selectionSort(List<Integer> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             int min = i;
 
@@ -36,6 +37,5 @@ public class SelectionSort {
             list.set(min, list.get(i));
             list.set(i, temp);
         }
-        return list;
     }
 }
