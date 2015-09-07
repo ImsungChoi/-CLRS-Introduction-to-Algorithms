@@ -19,7 +19,7 @@ public class InsertionSort {
                 input.add(sc.nextInt());
             }
 
-            insertionSort(input);
+            insertionSortWithBS(input);
             System.out.println(input);
         }
 
@@ -36,6 +36,38 @@ public class InsertionSort {
                 j = j - 1;
             }
             intList.set(j + 1, key);
+        }
+    }
+
+    public static void insertionSortWithBS(List<Integer> list) {
+        for (int i = 1; i < list.size(); i++) {
+            int key = list.get(i);
+
+            int insertionIndex = binarySearch(list, 0, i - 1, key);
+
+            for (int j = i - 1; j >= insertionIndex; j--) {
+                int temp = list.get(j);
+                list.set(j, list.get(j + 1));
+                list.set(j + 1, temp);
+            }
+        }
+    }
+
+    public static int binarySearch(List<Integer> list, int start, int end, int target) {
+        if (start >= end) {
+            if (list.get(start) > target) {
+                return start;
+            } else {
+                return start + 1;
+            }
+        }
+
+        int median = (start + end) / 2;
+
+        if (list.get(median) > target) {
+            return binarySearch(list, start, median - 1, target);
+        } else {
+            return binarySearch(list, median + 1, end, target);
         }
     }
 }
