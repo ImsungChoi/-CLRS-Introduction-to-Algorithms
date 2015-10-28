@@ -7,119 +7,66 @@ import java.lang.reflect.Array;
  */
 public class HeapSort {
     public static void main(String[] args) {
-        MaxHeap maxHeap = new MaxHeap(new int[] {4, 1, 3, 2, 16, 9, 10, 14, 8, 7});
-        maxHeap.buildMaxHeap();
-        for(int i = 0; i < maxHeap.getArray().length; i++)
-            System.out.println(maxHeap.getArray()[i]);
-    }
-}
+        int[] input = new int[] {4, 1, 3, 2, 16, 9, 10, 14, 8, 7};
 
-class Heap {
-    protected int heapSize;
-    protected int[] array;
+        heapSort(input, true);
+        for(int i = 0; i < input.length; i++)
+            System.out.print(input[i] + " ");
 
-    public Heap() {
-        this.array = null;
-        this.heapSize = 0;
+        System.out.println("");
+
+        heapSort(input, false);
+        for(int i = 0; i < input.length; i++)
+            System.out.print(input[i] + " ");
     }
 
-    public Heap(int[] array) {
-        this.array = array;
-        this.heapSize = array.length;
-    }
+    public static void heapSort(int[] input, boolean isAscending) {
+        Heap heap = null;
 
-    public Heap(int[] array, int heapSize) {
-        this.array = array;
-        this.heapSize = heapSize;
-    }
-
-    public int parent(int i) {
-        return ((i + 1) / 2) - 1;
-    }
-
-    public int left(int i) {
-        return ((i + 1) * 2) - 1;
-    }
-
-    public int right(int i) {
-        return ((i + 1) * 2);
-    }
-
-    public void swap (int i, int j) {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-
-    // Getter and Setter
-
-    public int getHeapSize() {
-        return heapSize;
-    }
-
-    public void setHeapSize(int heapSize) {
-        this.heapSize = heapSize;
-    }
-
-    public int[] getArray() {
-        return array;
-    }
-
-    public void setArray(int[] array) {
-        this.array = array;
-    }
-}
-
-class MaxHeap extends Heap {
-
-    public MaxHeap() {
-        this.array = null;
-        this.heapSize = 0;
-    }
-
-    public MaxHeap(int[] array) {
-        this.array = array;
-        this.heapSize = array.length;
-    }
-
-    public MaxHeap(int[] array, int heapSize) {
-        this.array = array;
-        this.heapSize = heapSize;
-    }
-
-    // Build Max Heap
-    public void buildMaxHeap() {
-        heapSize = array.length;
-
-        for (int i = (array.length / 2) - 1; i >= 0; i--) {
-            maxHeapify(i);
-        }
-    }
-
-    // Max Heapify
-    public void maxHeapify(int i) {
-        int largest = i;
-        int left = left(i);
-        int right = right(i);
-
-        if (left < heapSize  && array[left] > array[i]) {
-            largest = left;
+        if(isAscending) {
+            heap = new MaxHeap(input);
+        } else {
+            heap = new MinHeap(input);
         }
 
-        if (right < heapSize && array[right] > array[largest]) {
-            largest = right;
+        heap.buildHeap();
+
+        for(int i = heap.getHeapSize()-1; i > 0; i--) {
+            heap.swap(0, i);
+            heap.setHeapSize(heap.getHeapSize() - 1);
+            heap.heapify(0);
         }
 
-        if (largest != i) {
-            swap(i, largest);
-            maxHeapify(largest);
-        }
+        System.arraycopy(heap.getArray(), 0, input, 0, input.length);
     }
+
+
+/*    public static void heapSort(int[] input) {
+        MaxHeap maxHeap = new MaxHeap(input);
+        maxHeap.buildHeap();
+
+        for(int i = maxHeap.getHeapSize()-1; i > 0; i--) {
+            maxHeap.swap(0, i);
+            maxHeap.setHeapSize(maxHeap.getHeapSize() - 1);
+            maxHeap.heapify(0);
+        }
+
+        System.arraycopy(maxHeap.getArray(), 0, input, 0, input.length);
+    }
+
+    public static void heapSortByAscendingOrder(int[] input) {
+        MinHeap minHeap = new MinHeap(input);
+        minHeap.buildHeap();
+
+        for(int i = minHeap.getHeapSize()-1; i > 0; i--) {
+            minHeap.swap(0, i);
+            minHeap.setHeapSize(minHeap.getHeapSize() - 1);
+            minHeap.heapify(0);
+        }
+
+        System.arraycopy(minHeap.getArray(), 0, input, 0, input.length);
+    }*/
 }
 
-class MinHeap extends Heap {
 
-    // Build Min Heap
 
-    // Min Heapify
-}
