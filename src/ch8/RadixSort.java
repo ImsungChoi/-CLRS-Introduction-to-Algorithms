@@ -5,7 +5,7 @@ package ch8;
  */
 public class RadixSort {
     public static void main (String[] args) {
-        int[] input = new int[] {32030, 20039, 34040, 12499, 98848, 99388, 45409, 85543};
+        int[] input = new int[] {32030, 20039, 34040, 12499, 98848, 99388, 45409, 85543, 33333, 33334, 33433, 34333};
         radixSort(input, 5);
 
         for(int i = 0; i < input.length; i++) {
@@ -16,7 +16,7 @@ public class RadixSort {
     public static void radixSort(int[] input, int d) {
         int[] ret = new int[input.length];
 
-        for (int i = 1; i <= d; i++) {
+        for (int i = 0; i < d; i++) {
             extendedCountingSort(input, ret, 9, i);
             System.arraycopy(ret, 0, input, 0, ret.length);
         }
